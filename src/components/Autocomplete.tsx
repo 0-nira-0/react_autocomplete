@@ -5,13 +5,13 @@ import { peopleFromServer } from '../data/people';
 import classNames from 'classnames';
 
 type Props = {
-  timeout: number;
+  timeout?: number;
   selectedPerson: Person | null;
   onSelected: React.Dispatch<React.SetStateAction<Person | null>>;
 };
 
 export const Autocomplete: React.FC<Props> = React.memo(
-  ({ timeout, onSelected, selectedPerson }) => {
+  ({ timeout = 300, onSelected, selectedPerson }) => {
     const [showList, setShowList] = useState(false);
     const [query, setQuery] = useState('');
     const [appliedQuery, setAppliedQuery] = useState('');
@@ -45,7 +45,9 @@ export const Autocomplete: React.FC<Props> = React.memo(
               type="text"
               onChange={handleQueryChange}
               onFocus={() => setShowList(true)}
-              onBlur={() => setShowList(false)}
+              onBlur={() => {
+                setTimeout(() => setShowList(false), 200);
+              }}
               value={query}
               placeholder="Enter a part of the name"
               className="input"
